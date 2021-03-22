@@ -25,7 +25,7 @@ class Algoritma_genetika:
 		print("==========================================")
 		print("==========================================")
 		print("==========================================")
-		# self.next_gen = np.arange(4)
+		
 
 	def evaluasi_chrom(self, chrom, generasi):
 		#evaluasi chromosome
@@ -33,26 +33,27 @@ class Algoritma_genetika:
 		# fungsi_objektif(chromosome) = | (a+2b+3c+4d) – 30 |
 		# 
 		print("GENERASI ["+str(generasi)+"] ----------------------")
-		# print(chrom)
+		
 		jumlah_chromo = len(chrom)
 		j = np.arange(jumlah_chromo)   
 		fitness = np.arange(jumlah_chromo, dtype='f')
-		# print(fitness)
+		
 		for x in range(len(chrom)):
-			# print(x)
+			
 			#FUNGSI OBJEKTIF 
 			ev = abs((chrom[x][0]+2*chrom[x][1]+3*chrom[x][2]+4*chrom[x][3])-30)
 			j[x] = ev
-			# print(ev)
+			
 			#SELEKSI CHROMOSOME, DAN MENCARI FITNESS
 			fitn = 1/(ev+1)
-			# print(fitn)
+			
 			fitness[x] = fitn
 			if(fitn == 1):
 				self.stop = True
 			print("CHROMOSOME {0} : {1}, fitness = {2}".format(x, np.array2string(chrom[x], separator=','), fitn))
 		print("FITNESS DONE")
 		print(j)
+		
 		#cari PROBABILITAS (P)
 		P = np.arange(jumlah_chromo, dtype='f')
 		# print(fitness)
@@ -68,31 +69,20 @@ class Algoritma_genetika:
 		C = np.arange(jumlah_chromo, dtype='f')
 		total_x = 0
 		for x in range(len(P)):
-			# for y in range(0,x):
 			total_x += P[x]
 			C[x] = total_x
 
 		#putar ROULETE WHELL sebnyak jumlah sel]
 		R = np.random.sample(len(fitness))
-		# print("ROULETTE WHEEL RANDOM")
-		# print(R)
-		# print("CUMULATIVE PROBABILITAS")
-		# print(C)
 		new_chrom = np.arange(jumlah_chromo*len(self.gen)).reshape(jumlah_chromo, len(self.gen))
 		#CHROMOSOME BARU BERDASARKAN ROULETE WHELL
 		for y in range(len(R)):
-			# print("KAMPRET")
 			for k in range(len(new_chrom)):
-				# print("R : {}, K : {}".format(R[y], C[k]))
 				if(R[y] < C[0]):
 					new_chrom[y] = chrom[0]
-					# print("0")
 				elif((C[k-1] < R[y]) & (R[y] < C[k])):
 					new_chrom[y] = chrom[k]
-					# print(k)
-			# print("-----------------------------")
-		# print("MEMBUAT CHROMOSOME BARU")
-		# print(new_chrom)
+					
 		#CROSSOVER, mencari crossover
 		R = np.random.sample(jumlah_chromo)
 		index_chrom_parent = [] # [1,2,3, ...]
@@ -150,7 +140,6 @@ class Algoritma_genetika:
 
 		for x in range(len(random_i_mutasi)):
 			index_mutasi = random_i_mutasi[x]
-			# print("index mutasi : {}".format(str(index_mutasi)))
 			banyak_kromosom = len(chrom)
 			banyak_gen = len(chrom[0])
 			random_value = random.randint(self.nilai_per_gen['min'], self.nilai_per_gen['max'])
@@ -162,16 +151,7 @@ class Algoritma_genetika:
 				#POSISI Y DARI KROMOSOM, UNTUK MENCARI INDEX
 				pos_y = index_mutasi/banyak_gen
 				pos_y = int(pos_y)
-				# if(pos_y == 0):
-				# 	pos_y = 0
-				# else:
-				# 	pos_y = pos_y-1
 				pos_x = index_mutasi % banyak_gen
-				# if(pos_x == 0):
-				# 	pos_x = 0
-				# else:
-				# 	pos_x = pos_x-1
-				# print("pos x = {}, pos y = {}".format(str(pos_x), str(pos_y)))
 				new_chrom[pos_y][pos_x] = random_value
 		return new_chrom
 
